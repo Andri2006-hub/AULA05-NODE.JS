@@ -1,0 +1,65 @@
+const STORAGE_DIR = path.join(__dirname, 'storage');
+const FILE_PATH = path.join(STORAGE_DIR, 'aula05.txt');
+
+const conteudo = `Aula 05 - Manipulação de arquivos com Node.js.
+
+Arquivo criado com sucesso durante a atividade final.`;
+
+// 1. Verificar se a pasta storage existe; se não, criar
+fs.access(STORAGE_DIR, fs.constants.F_OK, (err) => {
+  if (err) {
+    fs.mkdir(STORAGE_DIR, (err) => {
+      if (err) {
+        console.error(chalk.red('Erro ao criar a pasta storage:'), err.message);
+        return;
+      }
+      console.log(chalk.green(Pasta "${STORAGE_DIR}" criada com sucesso.));
+      criarArquivo();
+    });
+  } else {
+    console.log(chalk.cyan(Pasta "${STORAGE_DIR}" já existe.));
+    criarArquivo();
+  }
+});
+
+function criarArquivo() {
+  console.log(chalk.magenta('Criando arquivo ./storage/aula05.txt...'));
+  fs.writeFile(FILE_PATH, conteudo, 'utf8', (err) => {
+    if (err) {
+      console.error(chalk.red('Erro ao criar o arquivo:'), err.message);
+      return;
+    }
+    console.log(chalk.green('Arquivo ./storage/aula05.txt criado com sucesso!
+'));
+
+    console.log(chalk.magenta('Lendo conteúdo do arquivo...'));
+    fs.readFile(FILE_PATH, 'utf8', (err, conteudoLido) => {
+      if (err) {
+        console.error(chalk.red('Erro ao ler o arquivo:'), err.message);
+        return;
+      }
+      console.log(chalk.bold.blue('
+Conteúdo do arquivo:
+'));
+      console.log(chalk.white(conteudoLido));
+      console.log(chalk.green('
+Atividade finalizada com sucesso! 🎉'));
+    });
+  });
+}
+}
+{
+  "name": "aula05-node",
+  "version": "1.0.0",
+  "description": "Prática de manipulação de arquivos com Node.js e chalk",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0"
+  },
+  "keywords": ["nodejs", "filesystem", "chalk"],
+  "author": "Aluno",
+  "license": "ISC"
+}
